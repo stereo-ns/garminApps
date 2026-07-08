@@ -1,0 +1,87 @@
+[ @file = "D:\Garmin\apps\glances\v02max\vo2Glance\source\vo2GlanceApp.mc"; @line = 1; @symbol_importdef<0> = [Toybox,1,7,13]; @symbol_importdef<1> = [Application,1,14,25]; ]
+import Toybox.Application;
+[ @file = "D:\Garmin\apps\glances\v02max\vo2Glance\source\vo2GlanceApp.mc"; @line = 2; @symbol_importdef<0> = [Toybox,2,7,13]; @symbol_importdef<1> = [Lang,2,14,18]; ]
+import Toybox.Lang;
+[ @file = "D:\Garmin\apps\glances\v02max\vo2Glance\source\vo2GlanceApp.mc"; @line = 3; @symbol_importdef<0> = [Toybox,3,7,13]; @symbol_importdef<1> = [WatchUi,3,14,21]; ]
+import Toybox.WatchUi;
+[ @file = "D:\Garmin\apps\glances\v02max\vo2Glance\source\vo2GlanceApp.mc"; @line = 5; @symbol_classdef = [vo2GlanceApp,5,6,18]; @symbol_extends<0> = [Application,5,27,38]; @symbol_extends<1> = [AppBase,5,39,46]; ]
+class vo2GlanceApp extends Application.AppBase {
+    [ @file = "D:\Garmin\apps\glances\v02max\vo2Glance\source\vo2GlanceApp.mc"; @line = 5; ]
+    <init> {
+    }
+    [ @file = "D:\Garmin\apps\glances\v02max\vo2Glance\source\vo2GlanceApp.mc"; @line = 5; ]
+    static
+    <init> {
+    }
+    [ @file = "D:\Garmin\apps\glances\v02max\vo2Glance\source\vo2GlanceApp.mc"; @line = 7; @symbol_functiondef = [initialize,7,13,23]; ]
+    function initialize() as Void {
+D__Garmin_apps_glances_v02max_vo2Glance_source_vo2GlanceApp_mc_7_26_9_4_start:
+[ "D:\Garmin\apps\glances\v02max\vo2Glance\source\vo2GlanceApp.mc" 8 8 ]
+        symbol [ AppBase %tmp.2 8 8 15 ];
+        %tmp.2 = getv ? :AppBase;
+        symbol [ initialize %tmp.3 8 16 26 ];
+        %tmp.3 = getv function %tmp.2 :initialize;
+        invoke %tmp.2 %tmp.3();
+D__Garmin_apps_glances_v02max_vo2Glance_source_vo2GlanceApp_mc_7_26_9_4_stop:
+    }
+    [ @file = "D:\Garmin\apps\glances\v02max\vo2Glance\source\vo2GlanceApp.mc"; @line = 11; @symbol_functiondef = [onStart,11,13,20]; @symbol_param<0> = [state,11,21,26]; @symbol_param<0>_type<0> = [Dictionary,11,30,40]; ]
+    function onStart(state as Dictionary or Null) as Void {
+    }
+    [ @file = "D:\Garmin\apps\glances\v02max\vo2Glance\source\vo2GlanceApp.mc"; @line = 14; @symbol_functiondef = [onStop,14,13,19]; @symbol_param<0> = [state,14,20,25]; @symbol_param<0>_type<0> = [Dictionary,14,29,39]; ]
+    function onStop(state as Dictionary or Null) as Void {
+    }
+    [ @file = "D:\Garmin\apps\glances\v02max\vo2Glance\source\vo2GlanceApp.mc"; @line = 17; @symbol_functiondef = [getInitialView,17,13,27]; ]
+    function getInitialView() {
+D__Garmin_apps_glances_v02max_vo2Glance_source_vo2GlanceApp_mc_17_30_19_4_start:
+[ "D:\Garmin\apps\glances\v02max\vo2Glance\source\vo2GlanceApp.mc" 18 8 ]
+        %tmp.1 = newa 1;
+        symbol [ vo2FullView %tmp.5 18 21 32 ];
+        %tmp.5 = getv ? :vo2FullView;
+        %tmp.2 = newc %tmp.5 ();
+        %tmp.6 = dup %tmp.1;
+        %tmp.7 = aputv %tmp.6 0 %tmp.2;
+        ret %tmp.7;
+D__Garmin_apps_glances_v02max_vo2Glance_source_vo2GlanceApp_mc_17_30_19_4_stop:
+    }
+    [ @file = "D:\Garmin\apps\glances\v02max\vo2Glance\source\vo2GlanceApp.mc"; @line = 22; glance = true; @symbol_functiondef = [getGlanceView,22,13,26]; ]
+    function getGlanceView() {
+D__Garmin_apps_glances_v02max_vo2Glance_source_vo2GlanceApp_mc_22_29_24_4_start:
+[ "D:\Garmin\apps\glances\v02max\vo2Glance\source\vo2GlanceApp.mc" 23 8 ]
+        %tmp.1 = newa 1;
+        symbol [ vo2GlanceView %tmp.5 23 21 34 ];
+        %tmp.5 = getv ? :vo2GlanceView;
+        %tmp.2 = newc %tmp.5 ();
+        %tmp.6 = dup %tmp.1;
+        %tmp.7 = aputv %tmp.6 0 %tmp.2;
+        ret %tmp.7;
+D__Garmin_apps_glances_v02max_vo2Glance_source_vo2GlanceApp_mc_22_29_24_4_stop:
+    }
+    [ @file = "D:\Garmin\apps\glances\v02max\vo2Glance\source\vo2GlanceApp.mc"; @line = 27; @symbol_functiondef = [onSettingsChanged,27,13,30]; ]
+    function onSettingsChanged() as Void {
+D__Garmin_apps_glances_v02max_vo2Glance_source_vo2GlanceApp_mc_27_41_29_4_start:
+[ "D:\Garmin\apps\glances\v02max\vo2Glance\source\vo2GlanceApp.mc" 28 8 ]
+        symbol [ WatchUi %tmp.1 28 8 15 ];
+        %tmp.1 = getm $.Toybox.WatchUi;
+        symbol [ requestUpdate %tmp.2 28 16 29 ];
+        %tmp.2 = getv function %tmp.1 :requestUpdate;
+        invoke %tmp.1 %tmp.2();
+D__Garmin_apps_glances_v02max_vo2Glance_source_vo2GlanceApp_mc_27_41_29_4_stop:
+    }
+}
+[ @file = "D:\Garmin\apps\glances\v02max\vo2Glance\source\vo2GlanceApp.mc"; @line = 32; @symbol_functiondef = [getApp,32,9,15]; @symbol_return<0> = [vo2GlanceApp,32,21,33]; ]
+function getApp() as vo2GlanceApp {
+D__Garmin_apps_glances_v02max_vo2Glance_source_vo2GlanceApp_mc_32_34_34_0_start:
+[ "D:\Garmin\apps\glances\v02max\vo2Glance\source\vo2GlanceApp.mc" 33 4 ]
+    symbol [ Application %tmp.1 33 11 22 ];
+    %tmp.1 = getm $.Toybox.Application;
+    symbol [ getApp %tmp.2 33 23 29 ];
+    %tmp.2 = getv function %tmp.1 :getApp;
+    %tmp.3 = invoke %tmp.1 %tmp.2();
+    %tmp.4 = as %tmp.3 vo2GlanceApp;
+    symbol [ vo2GlanceApp %tmp.4 33 35 47 ];
+    ret %tmp.4;
+D__Garmin_apps_glances_v02max_vo2Glance_source_vo2GlanceApp_mc_32_34_34_0_stop:
+}
+[ @file = "D:\Garmin\apps\glances\v02max\vo2Glance\source\vo2GlanceApp.mc"; @line = 1; ]
+<init> {
+}

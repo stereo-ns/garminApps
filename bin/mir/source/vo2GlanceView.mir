@@ -1,0 +1,486 @@
+[ @file = "D:\Garmin\apps\glances\v02max\vo2Glance\source\vo2GlanceView.mc"; @line = 1; @symbol_importdef<0> = [Toybox,1,7,13]; @symbol_importdef<1> = [Graphics,1,14,22]; ]
+import Toybox.Graphics;
+[ @file = "D:\Garmin\apps\glances\v02max\vo2Glance\source\vo2GlanceView.mc"; @line = 2; @symbol_importdef<0> = [Toybox,2,7,13]; @symbol_importdef<1> = [WatchUi,2,14,21]; ]
+import Toybox.WatchUi;
+[ @file = "D:\Garmin\apps\glances\v02max\vo2Glance\source\vo2GlanceView.mc"; @line = 3; @symbol_importdef<0> = [Toybox,3,7,13]; @symbol_importdef<1> = [Lang,3,14,18]; ]
+import Toybox.Lang;
+[ @file = "D:\Garmin\apps\glances\v02max\vo2Glance\source\vo2GlanceView.mc"; @line = 4; @symbol_importdef<0> = [Toybox,4,7,13]; @symbol_importdef<1> = [UserProfile,4,14,25]; ]
+import Toybox.UserProfile;
+[ @file = "D:\Garmin\apps\glances\v02max\vo2Glance\source\vo2GlanceView.mc"; @line = 5; @symbol_importdef<0> = [Toybox,5,7,13]; @symbol_importdef<1> = [Activity,5,14,22]; ]
+import Toybox.Activity;
+[ @file = "D:\Garmin\apps\glances\v02max\vo2Glance\source\vo2GlanceView.mc"; @line = 6; @symbol_importdef<0> = [Toybox,6,7,13]; @symbol_importdef<1> = [System,6,14,20]; ]
+import Toybox.System;
+[ @file = "D:\Garmin\apps\glances\v02max\vo2Glance\source\vo2GlanceView.mc"; @line = 7; @symbol_importdef<0> = [Toybox,7,7,13]; @symbol_importdef<1> = [Application,7,14,25]; ]
+import Toybox.Application;
+[ @file = "D:\Garmin\apps\glances\v02max\vo2Glance\source\vo2GlanceView.mc"; @line = 10; glance = true; @symbol_classdef = [vo2GlanceView,10,6,19]; @symbol_extends<0> = [WatchUi,10,28,35]; @symbol_extends<1> = [GlanceView,10,36,46]; ]
+class vo2GlanceView extends WatchUi.GlanceView {
+    [ @file = "D:\Garmin\apps\glances\v02max\vo2Glance\source\vo2GlanceView.mc"; @line = 10; ]
+    <init> {
+[ "D:\Garmin\apps\glances\v02max\vo2Glance\source\vo2GlanceView.mc" 16 18 ]
+        symbol [ Graphics %tmp.1 16 30 38 ];
+        %tmp.1 = getm $.Toybox.Graphics;
+        symbol [ FONT_GLANCE %tmp.2 16 39 50 ];
+        %tmp.2 = getv %tmp.1 :FONT_GLANCE;
+        putv self :FONT_SIZE %tmp.2;
+    }
+    [ @file = "D:\Garmin\apps\glances\v02max\vo2Glance\source\vo2GlanceView.mc"; @line = 10; ]
+    static
+    <init> {
+    }
+    [ @file = "D:\Garmin\apps\glances\v02max\vo2Glance\source\vo2GlanceView.mc"; @line = 12; @position = 18; @symbol_constdef = [FORMAT_TWO_DECIMALS,12,18,37]; ]
+    private
+    const FORMAT_TWO_DECIMALS = "%.2f";
+    [ @file = "D:\Garmin\apps\glances\v02max\vo2Glance\source\vo2GlanceView.mc"; @line = 13; @position = 18; @symbol_constdef = [NOT_AVAILABLE,13,18,31]; ]
+    private
+    const NOT_AVAILABLE = "--";
+    [ @file = "D:\Garmin\apps\glances\v02max\vo2Glance\source\vo2GlanceView.mc"; @line = 15; @position = 18; @symbol_constdef = [PADDING_X,15,18,27]; ]
+    private
+    const PADDING_X = 5;
+    [ @file = "D:\Garmin\apps\glances\v02max\vo2Glance\source\vo2GlanceView.mc"; @line = 16; @position = 18; @symbol_constdef = [FONT_SIZE,16,18,27]; ]
+    private
+    const FONT_SIZE;
+    [ @file = "D:\Garmin\apps\glances\v02max\vo2Glance\source\vo2GlanceView.mc"; @line = 18; @symbol_functiondef = [initialize,18,13,23]; ]
+    function initialize() as Void {
+D__Garmin_apps_glances_v02max_vo2Glance_source_vo2GlanceView_mc_18_26_20_4_start:
+[ "D:\Garmin\apps\glances\v02max\vo2Glance\source\vo2GlanceView.mc" 19 8 ]
+        symbol [ GlanceView %tmp.2 19 8 18 ];
+        %tmp.2 = getv ? :GlanceView;
+        symbol [ initialize %tmp.3 19 19 29 ];
+        %tmp.3 = getv function %tmp.2 :initialize;
+        invoke %tmp.2 %tmp.3();
+D__Garmin_apps_glances_v02max_vo2Glance_source_vo2GlanceView_mc_18_26_20_4_stop:
+    }
+    [ @file = "D:\Garmin\apps\glances\v02max\vo2Glance\source\vo2GlanceView.mc"; @line = 22; @symbol_functiondef = [onUpdate,22,13,21]; @symbol_param<0> = [dc,22,22,24]; @symbol_param<0>_type<0> = [Graphics,22,28,36]; @symbol_param<0>_type<1> = [Dc,22,37,39]; ]
+    function onUpdate(dc as Graphics.Dc) as Void {
+D__Garmin_apps_glances_v02max_vo2Glance_source_vo2GlanceView_mc_22_49_73_4_start:
+[ "D:\Garmin\apps\glances\v02max\vo2Glance\source\vo2GlanceView.mc" 23 8 ]
+        %tmp.1 = lgetv %dc;
+        symbol [ dc %tmp.1 23 8 10 ];
+        symbol [ setColor %tmp.2 23 11 19 ];
+        %tmp.2 = getv function %tmp.1 :setColor;
+        symbol [ Graphics %tmp.3 23 20 28 ];
+        %tmp.3 = getm $.Toybox.Graphics;
+        symbol [ COLOR_BLACK %tmp.4 23 29 40 ];
+        %tmp.4 = getv %tmp.3 :COLOR_BLACK;
+        symbol [ Graphics %tmp.5 23 42 50 ];
+        %tmp.5 = getm $.Toybox.Graphics;
+        symbol [ COLOR_BLACK %tmp.6 23 51 62 ];
+        %tmp.6 = getv %tmp.5 :COLOR_BLACK;
+        invoke %tmp.1 %tmp.2(%tmp.4, %tmp.6);
+[ "D:\Garmin\apps\glances\v02max\vo2Glance\source\vo2GlanceView.mc" 24 8 ]
+        %tmp.7 = lgetv %dc;
+        symbol [ dc %tmp.7 24 8 10 ];
+        symbol [ clear %tmp.8 24 11 16 ];
+        %tmp.8 = getv function %tmp.7 :clear;
+        invoke %tmp.7 %tmp.8();
+[ "D:\Garmin\apps\glances\v02max\vo2Glance\source\vo2GlanceView.mc" 26 8 ]
+        %tmp.9 = lgetv %dc;
+        symbol [ dc %tmp.9 26 8 10 ];
+        symbol [ setColor %tmp.10 26 11 19 ];
+        %tmp.10 = getv function %tmp.9 :setColor;
+        symbol [ Graphics %tmp.11 26 20 28 ];
+        %tmp.11 = getm $.Toybox.Graphics;
+        symbol [ COLOR_WHITE %tmp.12 26 29 40 ];
+        %tmp.12 = getv %tmp.11 :COLOR_WHITE;
+        symbol [ Graphics %tmp.13 26 42 50 ];
+        %tmp.13 = getm $.Toybox.Graphics;
+        symbol [ COLOR_TRANSPARENT %tmp.14 26 51 68 ];
+        %tmp.14 = getv %tmp.13 :COLOR_TRANSPARENT;
+        invoke %tmp.9 %tmp.10(%tmp.12, %tmp.14);
+[ "D:\Garmin\apps\glances\v02max\vo2Glance\source\vo2GlanceView.mc" 28 8 ]
+        [ "D__Garmin_apps_glances_v02max_vo2Glance_source_vo2GlanceView_mc_22_49_73_4_start" "D__Garmin_apps_glances_v02max_vo2Glance_source_vo2GlanceView_mc_22_49_73_4_stop" ]
+        %profile.1 = local;
+        symbol [ profile %profile.1 28 12 19 ];
+        symbol [ UserProfile %tmp.15 28 22 33 ];
+        %tmp.15 = getm $.Toybox.UserProfile;
+        symbol [ getProfile %tmp.16 28 34 44 ];
+        %tmp.16 = getv function %tmp.15 :getProfile;
+        %tmp.17 = invoke %tmp.15 %tmp.16();
+        lputv %profile.1 %tmp.17;
+        symbol [ profile %profile.1 28 12 19 ];
+[ "D:\Garmin\apps\glances\v02max\vo2Glance\source\vo2GlanceView.mc" 29 8 ]
+        [ "D__Garmin_apps_glances_v02max_vo2Glance_source_vo2GlanceView_mc_22_49_73_4_start" "D__Garmin_apps_glances_v02max_vo2Glance_source_vo2GlanceView_mc_22_49_73_4_stop" ]
+        %weightInGrams.2 = local;
+        symbol [ weightInGrams %weightInGrams.2 29 12 25 ];
+        %tmp.18 = lgetv %profile.1;
+        symbol [ profile %tmp.18 29 28 35 ];
+        symbol [ weight %tmp.19 29 36 42 ];
+        %tmp.19 = getv %tmp.18 :weight;
+        lputv %weightInGrams.2 %tmp.19;
+        symbol [ weightInGrams %weightInGrams.2 29 12 25 ];
+[ "D:\Garmin\apps\glances\v02max\vo2Glance\source\vo2GlanceView.mc" 32 8 ]
+        [ "D__Garmin_apps_glances_v02max_vo2Glance_source_vo2GlanceView_mc_22_49_73_4_start" "D__Garmin_apps_glances_v02max_vo2Glance_source_vo2GlanceView_mc_22_49_73_4_stop" ]
+        %vo2MaxVal.3 = local;
+        symbol [ vo2MaxVal %vo2MaxVal.3 32 12 21 ];
+        %tmp.20 = null;
+        %tmp.21 = as %tmp.20 Number or Null;
+        symbol [ Number %tmp.21 32 32 38 ];
+        lputv %vo2MaxVal.3 %tmp.21;
+        symbol [ vo2MaxVal %vo2MaxVal.3 32 12 21 ];
+[ "D:\Garmin\apps\glances\v02max\vo2Glance\source\vo2GlanceView.mc" 33 8 ]
+D__Garmin_apps_glances_v02max_vo2Glance_source_vo2GlanceView_mc_33_8_37_8_if_stmt:
+D__Garmin_apps_glances_v02max_vo2Glance_source_vo2GlanceView_mc_33_12_33_69_begin:
+        %tmp.22 = lgetv %profile.1;
+        symbol [ profile %tmp.22 33 12 19 ];
+        symbol [ vo2maxCycling %tmp.23 33 20 33 ];
+        %tmp.23 = getv %tmp.22 :vo2maxCycling;
+        %tmp.24 = null;
+        %tmp.25 = ne %tmp.23 %tmp.24;
+        bf %tmp.25 @D__Garmin_apps_glances_v02max_vo2Glance_source_vo2GlanceView_mc_33_8_37_8_if_false;
+D__Garmin_apps_glances_v02max_vo2Glance_source_vo2GlanceView_mc_33_45_33_69_true:
+        %tmp.26 = lgetv %profile.1;
+        symbol [ profile %tmp.26 33 45 52 ];
+        symbol [ vo2maxCycling %tmp.27 33 53 66 ];
+        %tmp.27 = getv %tmp.26 :vo2maxCycling;
+        %tmp.28 = 0;
+        %tmp.29 = gt %tmp.27 %tmp.28;
+        push %tmp.29;
+D__Garmin_apps_glances_v02max_vo2Glance_source_vo2GlanceView_mc_33_45_33_69_end:
+        %tmp.30 = phi [%tmp.25 @D__Garmin_apps_glances_v02max_vo2Glance_source_vo2GlanceView_mc_33_12_33_69_begin] [%tmp.29 @D__Garmin_apps_glances_v02max_vo2Glance_source_vo2GlanceView_mc_33_45_33_69_true] [%tmp.30 @D__Garmin_apps_glances_v02max_vo2Glance_source_vo2GlanceView_mc_33_45_33_69_end];
+        bf %tmp.30 @D__Garmin_apps_glances_v02max_vo2Glance_source_vo2GlanceView_mc_33_8_37_8_if_false;
+D__Garmin_apps_glances_v02max_vo2Glance_source_vo2GlanceView_mc_33_8_37_8_if_true:
+D__Garmin_apps_glances_v02max_vo2Glance_source_vo2GlanceView_mc_33_72_35_8_start:
+[ "D:\Garmin\apps\glances\v02max\vo2Glance\source\vo2GlanceView.mc" 34 12 ]
+        %tmp.31 = lgetv %profile.1;
+        symbol [ profile %tmp.31 34 24 31 ];
+        symbol [ vo2maxCycling %tmp.32 34 32 45 ];
+        %tmp.32 = getv %tmp.31 :vo2maxCycling;
+        lputv %vo2MaxVal.3 %tmp.32;
+        symbol [ vo2MaxVal %vo2MaxVal.3 34 12 21 ];
+D__Garmin_apps_glances_v02max_vo2Glance_source_vo2GlanceView_mc_33_72_35_8_stop:
+        goto @D__Garmin_apps_glances_v02max_vo2Glance_source_vo2GlanceView_mc_33_8_37_8_if_end;
+D__Garmin_apps_glances_v02max_vo2Glance_source_vo2GlanceView_mc_33_8_37_8_if_false:
+[ "D:\Garmin\apps\glances\v02max\vo2Glance\source\vo2GlanceView.mc" 35 15 ]
+D__Garmin_apps_glances_v02max_vo2Glance_source_vo2GlanceView_mc_35_15_37_8_if_stmt:
+D__Garmin_apps_glances_v02max_vo2Glance_source_vo2GlanceView_mc_35_19_35_76_begin:
+        %tmp.33 = lgetv %profile.1;
+        symbol [ profile %tmp.33 35 19 26 ];
+        symbol [ vo2maxRunning %tmp.34 35 27 40 ];
+        %tmp.34 = getv %tmp.33 :vo2maxRunning;
+        %tmp.35 = null;
+        %tmp.36 = ne %tmp.34 %tmp.35;
+        bf %tmp.36 @D__Garmin_apps_glances_v02max_vo2Glance_source_vo2GlanceView_mc_35_15_37_8_if_end;
+D__Garmin_apps_glances_v02max_vo2Glance_source_vo2GlanceView_mc_35_52_35_76_true:
+        %tmp.37 = lgetv %profile.1;
+        symbol [ profile %tmp.37 35 52 59 ];
+        symbol [ vo2maxRunning %tmp.38 35 60 73 ];
+        %tmp.38 = getv %tmp.37 :vo2maxRunning;
+        %tmp.39 = 0;
+        %tmp.40 = gt %tmp.38 %tmp.39;
+        push %tmp.40;
+D__Garmin_apps_glances_v02max_vo2Glance_source_vo2GlanceView_mc_35_52_35_76_end:
+        %tmp.41 = phi [%tmp.36 @D__Garmin_apps_glances_v02max_vo2Glance_source_vo2GlanceView_mc_35_19_35_76_begin] [%tmp.40 @D__Garmin_apps_glances_v02max_vo2Glance_source_vo2GlanceView_mc_35_52_35_76_true] [%tmp.41 @D__Garmin_apps_glances_v02max_vo2Glance_source_vo2GlanceView_mc_35_52_35_76_end];
+        bf %tmp.41 @D__Garmin_apps_glances_v02max_vo2Glance_source_vo2GlanceView_mc_35_15_37_8_if_end;
+D__Garmin_apps_glances_v02max_vo2Glance_source_vo2GlanceView_mc_35_15_37_8_if_true:
+D__Garmin_apps_glances_v02max_vo2Glance_source_vo2GlanceView_mc_35_79_37_8_start:
+[ "D:\Garmin\apps\glances\v02max\vo2Glance\source\vo2GlanceView.mc" 36 12 ]
+        %tmp.42 = lgetv %profile.1;
+        symbol [ profile %tmp.42 36 24 31 ];
+        symbol [ vo2maxRunning %tmp.43 36 32 45 ];
+        %tmp.43 = getv %tmp.42 :vo2maxRunning;
+        lputv %vo2MaxVal.3 %tmp.43;
+        symbol [ vo2MaxVal %vo2MaxVal.3 36 12 21 ];
+D__Garmin_apps_glances_v02max_vo2Glance_source_vo2GlanceView_mc_35_79_37_8_stop:
+        goto @D__Garmin_apps_glances_v02max_vo2Glance_source_vo2GlanceView_mc_35_15_37_8_if_end;
+D__Garmin_apps_glances_v02max_vo2Glance_source_vo2GlanceView_mc_35_15_37_8_if_end:
+D__Garmin_apps_glances_v02max_vo2Glance_source_vo2GlanceView_mc_33_8_37_8_if_end:
+[ "D:\Garmin\apps\glances\v02max\vo2Glance\source\vo2GlanceView.mc" 40 8 ]
+        [ "D__Garmin_apps_glances_v02max_vo2Glance_source_vo2GlanceView_mc_22_49_73_4_start" "D__Garmin_apps_glances_v02max_vo2Glance_source_vo2GlanceView_mc_22_49_73_4_stop" ]
+        %ftpVal.4 = local;
+        symbol [ ftpVal %ftpVal.4 40 12 18 ];
+        %tmp.44 = null;
+        %tmp.45 = as %tmp.44 Number or Null;
+        symbol [ Number %tmp.45 40 29 35 ];
+        lputv %ftpVal.4 %tmp.45;
+        symbol [ ftpVal %ftpVal.4 40 12 18 ];
+[ "D:\Garmin\apps\glances\v02max\vo2Glance\source\vo2GlanceView.mc" 41 8 ]
+D__Garmin_apps_glances_v02max_vo2Glance_source_vo2GlanceView_mc_41_8_46_8_if_stmt:
+        symbol [ UserProfile %tmp.46 41 12 23 ];
+        %tmp.46 = getm $.Toybox.UserProfile;
+        %tmp.48 = const :getFunctionalThresholdPower;
+        symbol [ getFunctionalThresholdPower %tmp.48 41 29 56 const ];
+        %tmp.49 = canhazplz %tmp.46 %tmp.48;
+        bf %tmp.49 @D__Garmin_apps_glances_v02max_vo2Glance_source_vo2GlanceView_mc_41_8_46_8_if_end;
+D__Garmin_apps_glances_v02max_vo2Glance_source_vo2GlanceView_mc_41_8_46_8_if_true:
+D__Garmin_apps_glances_v02max_vo2Glance_source_vo2GlanceView_mc_41_58_46_8_start:
+[ "D:\Garmin\apps\glances\v02max\vo2Glance\source\vo2GlanceView.mc" 42 12 ]
+        [ "D__Garmin_apps_glances_v02max_vo2Glance_source_vo2GlanceView_mc_41_58_46_8_start" "D__Garmin_apps_glances_v02max_vo2Glance_source_vo2GlanceView_mc_41_58_46_8_stop" ]
+        %tempFtp.5 = local;
+        symbol [ tempFtp %tempFtp.5 42 16 23 ];
+        symbol [ UserProfile %tmp.50 42 26 37 ];
+        %tmp.50 = getm $.Toybox.UserProfile;
+        symbol [ getFunctionalThresholdPower %tmp.51 42 38 65 ];
+        %tmp.51 = getv function %tmp.50 :getFunctionalThresholdPower;
+        symbol [ Activity %tmp.52 42 66 74 ];
+        %tmp.52 = getm $.Toybox.Activity;
+        symbol [ SPORT_CYCLING %tmp.53 42 75 88 ];
+        %tmp.53 = getv %tmp.52 :SPORT_CYCLING;
+        %tmp.54 = invoke %tmp.50 %tmp.51(%tmp.53);
+        lputv %tempFtp.5 %tmp.54;
+        symbol [ tempFtp %tempFtp.5 42 16 23 ];
+[ "D:\Garmin\apps\glances\v02max\vo2Glance\source\vo2GlanceView.mc" 43 12 ]
+D__Garmin_apps_glances_v02max_vo2Glance_source_vo2GlanceView_mc_43_12_45_12_if_stmt:
+D__Garmin_apps_glances_v02max_vo2Glance_source_vo2GlanceView_mc_43_16_43_45_begin:
+        %tmp.55 = lgetv %tempFtp.5;
+        symbol [ tempFtp %tmp.55 43 16 23 ];
+        %tmp.56 = null;
+        %tmp.57 = ne %tmp.55 %tmp.56;
+        bf %tmp.57 @D__Garmin_apps_glances_v02max_vo2Glance_source_vo2GlanceView_mc_43_12_45_12_if_end;
+D__Garmin_apps_glances_v02max_vo2Glance_source_vo2GlanceView_mc_43_35_43_45_true:
+        %tmp.58 = lgetv %tempFtp.5;
+        symbol [ tempFtp %tmp.58 43 35 42 ];
+        %tmp.59 = as %tmp.58 { (!Null) };
+        %tmp.60 = 0;
+        %tmp.61 = gt %tmp.59 %tmp.60;
+        push %tmp.61;
+D__Garmin_apps_glances_v02max_vo2Glance_source_vo2GlanceView_mc_43_35_43_45_end:
+        %tmp.62 = phi [%tmp.57 @D__Garmin_apps_glances_v02max_vo2Glance_source_vo2GlanceView_mc_43_16_43_45_begin] [%tmp.61 @D__Garmin_apps_glances_v02max_vo2Glance_source_vo2GlanceView_mc_43_35_43_45_true] [%tmp.62 @D__Garmin_apps_glances_v02max_vo2Glance_source_vo2GlanceView_mc_43_35_43_45_end];
+        bf %tmp.62 @D__Garmin_apps_glances_v02max_vo2Glance_source_vo2GlanceView_mc_43_12_45_12_if_end;
+D__Garmin_apps_glances_v02max_vo2Glance_source_vo2GlanceView_mc_43_12_45_12_if_true:
+D__Garmin_apps_glances_v02max_vo2Glance_source_vo2GlanceView_mc_43_48_45_12_start:
+[ "D:\Garmin\apps\glances\v02max\vo2Glance\source\vo2GlanceView.mc" 44 16 ]
+        %tmp.63 = lgetv %tempFtp.5;
+        symbol [ tempFtp %tmp.63 44 25 32 ];
+        %tmp.64 = as %tmp.63 { (!Null) };
+        symbol [ toNumber %tmp.65 44 33 41 ];
+        %tmp.65 = getv function %tmp.64 :toNumber;
+        %tmp.66 = invoke %tmp.64 %tmp.65();
+        lputv %ftpVal.4 %tmp.66;
+        symbol [ ftpVal %ftpVal.4 44 16 22 ];
+D__Garmin_apps_glances_v02max_vo2Glance_source_vo2GlanceView_mc_43_48_45_12_stop:
+        goto @D__Garmin_apps_glances_v02max_vo2Glance_source_vo2GlanceView_mc_43_12_45_12_if_end;
+D__Garmin_apps_glances_v02max_vo2Glance_source_vo2GlanceView_mc_43_12_45_12_if_end:
+D__Garmin_apps_glances_v02max_vo2Glance_source_vo2GlanceView_mc_41_58_46_8_stop:
+        goto @D__Garmin_apps_glances_v02max_vo2Glance_source_vo2GlanceView_mc_41_8_46_8_if_end;
+D__Garmin_apps_glances_v02max_vo2Glance_source_vo2GlanceView_mc_41_8_46_8_if_end:
+[ "D:\Garmin\apps\glances\v02max\vo2Glance\source\vo2GlanceView.mc" 49 8 ]
+D__Garmin_apps_glances_v02max_vo2Glance_source_vo2GlanceView_mc_49_8_51_8_if_stmt:
+        %tmp.67 = lgetv %ftpVal.4;
+        symbol [ ftpVal %tmp.67 49 12 18 ];
+        %tmp.68 = null;
+        %tmp.69 = eq %tmp.67 %tmp.68;
+        bf %tmp.69 @D__Garmin_apps_glances_v02max_vo2Glance_source_vo2GlanceView_mc_49_8_51_8_if_end;
+D__Garmin_apps_glances_v02max_vo2Glance_source_vo2GlanceView_mc_49_8_51_8_if_true:
+D__Garmin_apps_glances_v02max_vo2Glance_source_vo2GlanceView_mc_49_28_51_8_start:
+[ "D:\Garmin\apps\glances\v02max\vo2Glance\source\vo2GlanceView.mc" 50 12 ]
+        %tmp.70 = 200;
+        lputv %ftpVal.4 %tmp.70;
+        symbol [ ftpVal %ftpVal.4 50 12 18 ];
+D__Garmin_apps_glances_v02max_vo2Glance_source_vo2GlanceView_mc_49_28_51_8_stop:
+        goto @D__Garmin_apps_glances_v02max_vo2Glance_source_vo2GlanceView_mc_49_8_51_8_if_end;
+D__Garmin_apps_glances_v02max_vo2Glance_source_vo2GlanceView_mc_49_8_51_8_if_end:
+[ "D:\Garmin\apps\glances\v02max\vo2Glance\source\vo2GlanceView.mc" 54 8 ]
+        [ "D__Garmin_apps_glances_v02max_vo2Glance_source_vo2GlanceView_mc_22_49_73_4_start" "D__Garmin_apps_glances_v02max_vo2Glance_source_vo2GlanceView_mc_22_49_73_4_stop" ]
+        %vo2String.6 = local;
+        symbol [ vo2String %vo2String.6 54 12 21 ];
+D__Garmin_apps_glances_v02max_vo2Glance_source_vo2GlanceView_mc_54_24_54_69_begin:
+        %tmp.71 = lgetv %vo2MaxVal.3;
+        symbol [ vo2MaxVal %tmp.71 54 25 34 ];
+        %tmp.72 = null;
+        %tmp.73 = ne %tmp.71 %tmp.72;
+        bf %tmp.73 @D__Garmin_apps_glances_v02max_vo2Glance_source_vo2GlanceView_mc_54_24_54_69_else_false;
+D__Garmin_apps_glances_v02max_vo2Glance_source_vo2GlanceView_mc_54_24_54_69_true:
+        %tmp.74 = lgetv %vo2MaxVal.3;
+        symbol [ vo2MaxVal %tmp.74 54 46 55 ];
+        %tmp.75 = as %tmp.74 { (!Null) };
+        symbol [ toString %tmp.76 54 56 64 ];
+        %tmp.76 = getv function %tmp.75 :toString;
+        %tmp.77 = invoke %tmp.75 %tmp.76();
+        push %tmp.77;
+        goto @D__Garmin_apps_glances_v02max_vo2Glance_source_vo2GlanceView_mc_54_24_54_69_end;
+D__Garmin_apps_glances_v02max_vo2Glance_source_vo2GlanceView_mc_54_24_54_69_else_false:
+        symbol [ NOT_AVAILABLE %tmp.79 54 69 82 ];
+        %tmp.79 = getv ? :NOT_AVAILABLE;
+        push %tmp.79;
+D__Garmin_apps_glances_v02max_vo2Glance_source_vo2GlanceView_mc_54_24_54_69_end:
+        %tmp.80 = phi [%tmp.73 @D__Garmin_apps_glances_v02max_vo2Glance_source_vo2GlanceView_mc_54_24_54_69_begin] [%tmp.77 @D__Garmin_apps_glances_v02max_vo2Glance_source_vo2GlanceView_mc_54_24_54_69_true] [%tmp.79 @D__Garmin_apps_glances_v02max_vo2Glance_source_vo2GlanceView_mc_54_24_54_69_else_false] [%tmp.80 @D__Garmin_apps_glances_v02max_vo2Glance_source_vo2GlanceView_mc_54_24_54_69_end];
+        lputv %vo2String.6 %tmp.80;
+        symbol [ vo2String %vo2String.6 54 12 21 ];
+[ "D:\Garmin\apps\glances\v02max\vo2Glance\source\vo2GlanceView.mc" 55 8 ]
+        [ "D__Garmin_apps_glances_v02max_vo2Glance_source_vo2GlanceView_mc_22_49_73_4_start" "D__Garmin_apps_glances_v02max_vo2Glance_source_vo2GlanceView_mc_22_49_73_4_stop" ]
+        %ftpString.7 = local;
+        symbol [ ftpString %ftpString.7 55 12 21 ];
+        %tmp.81 = lgetv %ftpVal.4;
+        symbol [ ftpVal %tmp.81 55 24 30 ];
+        symbol [ toString %tmp.82 55 31 39 ];
+        %tmp.82 = getv function %tmp.81 :toString;
+        %tmp.83 = invoke %tmp.81 %tmp.82();
+        %tmp.84 = "W";
+        %tmp.85 = add %tmp.83 %tmp.84;
+        lputv %ftpString.7 %tmp.85;
+        symbol [ ftpString %ftpString.7 55 12 21 ];
+[ "D:\Garmin\apps\glances\v02max\vo2Glance\source\vo2GlanceView.mc" 56 8 ]
+        [ "D__Garmin_apps_glances_v02max_vo2Glance_source_vo2GlanceView_mc_22_49_73_4_start" "D__Garmin_apps_glances_v02max_vo2Glance_source_vo2GlanceView_mc_22_49_73_4_stop" ]
+        %wKgString.8 = local;
+        symbol [ wKgString %wKgString.8 56 12 21 ];
+        %tmp.86 = "";
+        lputv %wKgString.8 %tmp.86;
+        symbol [ wKgString %wKgString.8 56 12 21 ];
+[ "D:\Garmin\apps\glances\v02max\vo2Glance\source\vo2GlanceView.mc" 58 8 ]
+D__Garmin_apps_glances_v02max_vo2Glance_source_vo2GlanceView_mc_58_8_62_8_if_stmt:
+D__Garmin_apps_glances_v02max_vo2Glance_source_vo2GlanceView_mc_58_12_58_53_begin:
+        %tmp.87 = lgetv %weightInGrams.2;
+        symbol [ weightInGrams %tmp.87 58 12 25 ];
+        %tmp.88 = null;
+        %tmp.89 = ne %tmp.87 %tmp.88;
+        bf %tmp.89 @D__Garmin_apps_glances_v02max_vo2Glance_source_vo2GlanceView_mc_58_8_62_8_if_end;
+D__Garmin_apps_glances_v02max_vo2Glance_source_vo2GlanceView_mc_58_37_58_53_true:
+        %tmp.90 = lgetv %weightInGrams.2;
+        symbol [ weightInGrams %tmp.90 58 37 50 ];
+        %tmp.91 = as %tmp.90 { (!Null) };
+        %tmp.92 = 0;
+        %tmp.93 = gt %tmp.91 %tmp.92;
+        push %tmp.93;
+D__Garmin_apps_glances_v02max_vo2Glance_source_vo2GlanceView_mc_58_37_58_53_end:
+        %tmp.94 = phi [%tmp.89 @D__Garmin_apps_glances_v02max_vo2Glance_source_vo2GlanceView_mc_58_12_58_53_begin] [%tmp.93 @D__Garmin_apps_glances_v02max_vo2Glance_source_vo2GlanceView_mc_58_37_58_53_true] [%tmp.94 @D__Garmin_apps_glances_v02max_vo2Glance_source_vo2GlanceView_mc_58_37_58_53_end];
+        bf %tmp.94 @D__Garmin_apps_glances_v02max_vo2Glance_source_vo2GlanceView_mc_58_8_62_8_if_end;
+D__Garmin_apps_glances_v02max_vo2Glance_source_vo2GlanceView_mc_58_8_62_8_if_true:
+D__Garmin_apps_glances_v02max_vo2Glance_source_vo2GlanceView_mc_58_56_62_8_start:
+[ "D:\Garmin\apps\glances\v02max\vo2Glance\source\vo2GlanceView.mc" 59 12 ]
+        [ "D__Garmin_apps_glances_v02max_vo2Glance_source_vo2GlanceView_mc_58_56_62_8_start" "D__Garmin_apps_glances_v02max_vo2Glance_source_vo2GlanceView_mc_58_56_62_8_stop" ]
+        %weightKg.9 = local;
+        symbol [ weightKg %weightKg.9 59 16 24 ];
+        %tmp.95 = lgetv %weightInGrams.2;
+        symbol [ weightInGrams %tmp.95 59 27 40 ];
+        %tmp.96 = as %tmp.95 { (!Null) };
+        %tmp.97 = 1000.0;
+        %tmp.98 = div %tmp.96 %tmp.97;
+        lputv %weightKg.9 %tmp.98;
+        symbol [ weightKg %weightKg.9 59 16 24 ];
+[ "D:\Garmin\apps\glances\v02max\vo2Glance\source\vo2GlanceView.mc" 60 12 ]
+        [ "D__Garmin_apps_glances_v02max_vo2Glance_source_vo2GlanceView_mc_58_56_62_8_start" "D__Garmin_apps_glances_v02max_vo2Glance_source_vo2GlanceView_mc_58_56_62_8_stop" ]
+        %wattsPerKg.10 = local;
+        symbol [ wattsPerKg %wattsPerKg.10 60 16 26 ];
+        %tmp.99 = lgetv %ftpVal.4;
+        symbol [ ftpVal %tmp.99 60 29 35 ];
+        symbol [ toFloat %tmp.100 60 36 43 ];
+        %tmp.100 = getv function %tmp.99 :toFloat;
+        %tmp.101 = invoke %tmp.99 %tmp.100();
+        %tmp.102 = lgetv %weightKg.9;
+        symbol [ weightKg %tmp.102 60 48 56 ];
+        %tmp.103 = div %tmp.101 %tmp.102;
+        lputv %wattsPerKg.10 %tmp.103;
+        symbol [ wattsPerKg %wattsPerKg.10 60 16 26 ];
+[ "D:\Garmin\apps\glances\v02max\vo2Glance\source\vo2GlanceView.mc" 61 12 ]
+        %tmp.104 = " (";
+        %tmp.105 = lgetv %wattsPerKg.10;
+        symbol [ wattsPerKg %tmp.105 61 31 41 ];
+        symbol [ format %tmp.106 61 42 48 ];
+        %tmp.106 = getv function %tmp.105 :format;
+        symbol [ FORMAT_TWO_DECIMALS %tmp.108 61 49 68 ];
+        %tmp.108 = getv ? :FORMAT_TWO_DECIMALS;
+        %tmp.109 = invoke %tmp.105 %tmp.106(%tmp.108);
+        %tmp.110 = add %tmp.104 %tmp.109;
+        %tmp.111 = ")";
+        %tmp.112 = add %tmp.110 %tmp.111;
+        lputv %wKgString.8 %tmp.112;
+        symbol [ wKgString %wKgString.8 61 12 21 ];
+D__Garmin_apps_glances_v02max_vo2Glance_source_vo2GlanceView_mc_58_56_62_8_stop:
+        goto @D__Garmin_apps_glances_v02max_vo2Glance_source_vo2GlanceView_mc_58_8_62_8_if_end;
+D__Garmin_apps_glances_v02max_vo2Glance_source_vo2GlanceView_mc_58_8_62_8_if_end:
+[ "D:\Garmin\apps\glances\v02max\vo2Glance\source\vo2GlanceView.mc" 64 8 ]
+        [ "D__Garmin_apps_glances_v02max_vo2Glance_source_vo2GlanceView_mc_22_49_73_4_start" "D__Garmin_apps_glances_v02max_vo2Glance_source_vo2GlanceView_mc_22_49_73_4_stop" ]
+        %totalHeight.11 = local;
+        symbol [ totalHeight %totalHeight.11 64 12 23 ];
+        %tmp.113 = lgetv %dc;
+        symbol [ dc %tmp.113 64 26 28 ];
+        symbol [ getHeight %tmp.114 64 29 38 ];
+        %tmp.114 = getv function %tmp.113 :getHeight;
+        %tmp.115 = invoke %tmp.113 %tmp.114();
+        lputv %totalHeight.11 %tmp.115;
+        symbol [ totalHeight %totalHeight.11 64 12 23 ];
+[ "D:\Garmin\apps\glances\v02max\vo2Glance\source\vo2GlanceView.mc" 65 8 ]
+        [ "D__Garmin_apps_glances_v02max_vo2Glance_source_vo2GlanceView_mc_22_49_73_4_start" "D__Garmin_apps_glances_v02max_vo2Glance_source_vo2GlanceView_mc_22_49_73_4_stop" ]
+        %firstRowY.12 = local;
+        symbol [ firstRowY %firstRowY.12 65 12 21 ];
+        %tmp.116 = lgetv %totalHeight.11;
+        symbol [ totalHeight %tmp.116 65 24 35 ];
+        %tmp.117 = 0.25;
+        %tmp.118 = mul %tmp.116 %tmp.117;
+        lputv %firstRowY.12 %tmp.118;
+        symbol [ firstRowY %firstRowY.12 65 12 21 ];
+[ "D:\Garmin\apps\glances\v02max\vo2Glance\source\vo2GlanceView.mc" 66 8 ]
+        [ "D__Garmin_apps_glances_v02max_vo2Glance_source_vo2GlanceView_mc_22_49_73_4_start" "D__Garmin_apps_glances_v02max_vo2Glance_source_vo2GlanceView_mc_22_49_73_4_stop" ]
+        %secondRowY.13 = local;
+        symbol [ secondRowY %secondRowY.13 66 12 22 ];
+        %tmp.119 = lgetv %totalHeight.11;
+        symbol [ totalHeight %tmp.119 66 25 36 ];
+        %tmp.120 = 0.75;
+        %tmp.121 = mul %tmp.119 %tmp.120;
+        lputv %secondRowY.13 %tmp.121;
+        symbol [ secondRowY %secondRowY.13 66 12 22 ];
+[ "D:\Garmin\apps\glances\v02max\vo2Glance\source\vo2GlanceView.mc" 68 8 ]
+        [ "D__Garmin_apps_glances_v02max_vo2Glance_source_vo2GlanceView_mc_22_49_73_4_start" "D__Garmin_apps_glances_v02max_vo2Glance_source_vo2GlanceView_mc_22_49_73_4_stop" ]
+        %topRowText.14 = local;
+        symbol [ topRowText %topRowText.14 68 12 22 ];
+        %tmp.122 = "VO2 Max: ";
+        %tmp.123 = lgetv %vo2String.6;
+        symbol [ vo2String %tmp.123 68 39 48 ];
+        %tmp.124 = add %tmp.122 %tmp.123;
+        lputv %topRowText.14 %tmp.124;
+        symbol [ topRowText %topRowText.14 68 12 22 ];
+[ "D:\Garmin\apps\glances\v02max\vo2Glance\source\vo2GlanceView.mc" 69 8 ]
+        [ "D__Garmin_apps_glances_v02max_vo2Glance_source_vo2GlanceView_mc_22_49_73_4_start" "D__Garmin_apps_glances_v02max_vo2Glance_source_vo2GlanceView_mc_22_49_73_4_stop" ]
+        %bottomRowText.15 = local;
+        symbol [ bottomRowText %bottomRowText.15 69 12 25 ];
+        %tmp.125 = "FTP: ";
+        %tmp.126 = lgetv %ftpString.7;
+        symbol [ ftpString %tmp.126 69 38 47 ];
+        %tmp.127 = add %tmp.125 %tmp.126;
+        %tmp.128 = lgetv %wKgString.8;
+        symbol [ wKgString %tmp.128 69 50 59 ];
+        %tmp.129 = add %tmp.127 %tmp.128;
+        lputv %bottomRowText.15 %tmp.129;
+        symbol [ bottomRowText %bottomRowText.15 69 12 25 ];
+[ "D:\Garmin\apps\glances\v02max\vo2Glance\source\vo2GlanceView.mc" 71 8 ]
+        %tmp.130 = lgetv %dc;
+        symbol [ dc %tmp.130 71 8 10 ];
+        symbol [ drawText %tmp.131 71 11 19 ];
+        %tmp.131 = getv function %tmp.130 :drawText;
+        symbol [ PADDING_X %tmp.133 71 20 29 ];
+        %tmp.133 = getv ? :PADDING_X;
+        %tmp.134 = lgetv %firstRowY.12;
+        symbol [ firstRowY %tmp.134 71 31 40 ];
+        symbol [ FONT_SIZE %tmp.136 71 42 51 ];
+        %tmp.136 = getv ? :FONT_SIZE;
+        %tmp.137 = lgetv %topRowText.14;
+        symbol [ topRowText %tmp.137 71 53 63 ];
+        symbol [ Graphics %tmp.138 71 65 73 ];
+        %tmp.138 = getm $.Toybox.Graphics;
+        symbol [ TEXT_JUSTIFY_LEFT %tmp.139 71 74 91 ];
+        %tmp.139 = getv %tmp.138 :TEXT_JUSTIFY_LEFT;
+        symbol [ Graphics %tmp.140 71 94 102 ];
+        %tmp.140 = getm $.Toybox.Graphics;
+        symbol [ TEXT_JUSTIFY_VCENTER %tmp.141 71 103 123 ];
+        %tmp.141 = getv %tmp.140 :TEXT_JUSTIFY_VCENTER;
+        %tmp.142 = bitor %tmp.139 %tmp.141;
+        invoke %tmp.130 %tmp.131(%tmp.133, %tmp.134, %tmp.136, %tmp.137, %tmp.142);
+[ "D:\Garmin\apps\glances\v02max\vo2Glance\source\vo2GlanceView.mc" 72 8 ]
+        %tmp.143 = lgetv %dc;
+        symbol [ dc %tmp.143 72 8 10 ];
+        symbol [ drawText %tmp.144 72 11 19 ];
+        %tmp.144 = getv function %tmp.143 :drawText;
+        symbol [ PADDING_X %tmp.146 72 20 29 ];
+        %tmp.146 = getv ? :PADDING_X;
+        %tmp.147 = lgetv %secondRowY.13;
+        symbol [ secondRowY %tmp.147 72 31 41 ];
+        symbol [ FONT_SIZE %tmp.149 72 43 52 ];
+        %tmp.149 = getv ? :FONT_SIZE;
+        %tmp.150 = lgetv %bottomRowText.15;
+        symbol [ bottomRowText %tmp.150 72 54 67 ];
+        symbol [ Graphics %tmp.151 72 69 77 ];
+        %tmp.151 = getm $.Toybox.Graphics;
+        symbol [ TEXT_JUSTIFY_LEFT %tmp.152 72 78 95 ];
+        %tmp.152 = getv %tmp.151 :TEXT_JUSTIFY_LEFT;
+        symbol [ Graphics %tmp.153 72 98 106 ];
+        %tmp.153 = getm $.Toybox.Graphics;
+        symbol [ TEXT_JUSTIFY_VCENTER %tmp.154 72 107 127 ];
+        %tmp.154 = getv %tmp.153 :TEXT_JUSTIFY_VCENTER;
+        %tmp.155 = bitor %tmp.152 %tmp.154;
+        invoke %tmp.143 %tmp.144(%tmp.146, %tmp.147, %tmp.149, %tmp.150, %tmp.155);
+D__Garmin_apps_glances_v02max_vo2Glance_source_vo2GlanceView_mc_22_49_73_4_stop:
+    }
+}
+[ @file = "D:\Garmin\apps\glances\v02max\vo2Glance\source\vo2GlanceView.mc"; @line = 1; ]
+<init> {
+}
