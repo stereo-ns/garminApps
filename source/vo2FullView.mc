@@ -27,6 +27,7 @@ class vo2FullView extends WatchUi.View {
         var weightInGrams = profile.weight;
         
         // 1. ČITANJE VO2 MAX (Direktno iz profila uređaja)
+        
         var vo2MaxVal = null as Number?;
         if (profile.vo2maxCycling != null && profile.vo2maxCycling > 0) {
             vo2MaxVal = profile.vo2maxCycling;
@@ -35,17 +36,37 @@ class vo2FullView extends WatchUi.View {
         }
 
         // 2. ČITANJE PRAVOG SAKRIVENOG FTP-A SA SAT/EDGE PROFILA
+
+        // 2. ČITANJE FTP-A IZ KORISNIČKOG PROFILA SATA
         var ftpVal = null as Number?;
-        if (UserProfile has :getFunctionalThresholdPower) {
-            var tempFtp = UserProfile.getFunctionalThresholdPower(Activity.SPORT_CYCLING);
-            if (tempFtp != null && tempFtp > 0) {
-                ftpVal = tempFtp.toNumber();
+        
+        // Automatsko ispitivanje skrivenih polja unutar profile objekta na CIQ 5.2.0
+        if (profile has :functionalThresholdPower) {
+            ftpVal = profile.functionalThresholdPower;
+        } else if (profile has :ftp) {
+            ftpVal = profile.ftp;
+        }
+
+        // Ako sat još uvek nema ove registre na 5.2.0, vučemo iz tvog settings.xml
+        if (ftpVal == null) {
+            try {
+                ftpVal = Application.Properties.getValue("user_ftp") as Number;
+            } catch(e) {
+                ftpVal = 230; // Tvoj default iz XML-a
             }
         }
         
-        if (ftpVal == null) {
-            ftpVal = 200; 
-        }
+        // var ftpVal = null as Number?;
+        // if (UserProfile has :getFunctionalThresholdPower) {
+            // var tempFtp = UserProfile.getFunctionalThresholdPower(Activity.SPORT_CYCLING);
+            // if (tempFtp != null && tempFtp > 0) {
+                // ftpVal = tempFtp.toNumber();
+            // }
+        // }
+        
+        // if (ftpVal == null) {
+            // ftpVal = 200; 
+        // }
 
         // 3. CANVAS GEOMETRY SETUP
         var screenWidth = dc.getWidth();

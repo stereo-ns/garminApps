@@ -28,26 +28,35 @@ class vo2GlanceView extends WatchUi.GlanceView {
         var profile = UserProfile.getProfile();
         var weightInGrams = profile.weight;
         
-        // 1. ČITANJE VO2 MAX (Direktno iz profila uređaja)
+       // 1. ČITANJE VO2 MAX (Iz profila uređaja)
         var vo2MaxVal = null as Number?;
-        if (profile.vo2maxCycling != null && profile.vo2maxCycling > 0) {
-            vo2MaxVal = profile.vo2maxCycling;
-        } else if (profile.vo2maxRunning != null && profile.vo2maxRunning > 0) {
-            vo2MaxVal = profile.vo2maxRunning;
-        }
-
-        // 2. ČITANJE PRAVOG SAKRIVENOG FTP-A SA SAT/EDGE PROFILA
-        var ftpVal = null as Number?;
-        if (UserProfile has :getFunctionalThresholdPower) {
-            var tempFtp = UserProfile.getFunctionalThresholdPower(Activity.SPORT_CYCLING);
-            if (tempFtp != null && tempFtp > 0) {
-                ftpVal = tempFtp.toNumber();
+        
+        if (profile != null) {
+            if (profile.vo2maxCycling != null && profile.vo2maxCycling > 0) {
+                vo2MaxVal = profile.vo2maxCycling;
+            } else if (profile.vo2maxRunning != null && profile.vo2maxRunning > 0) {
+                vo2MaxVal = profile.vo2maxRunning;
             }
         }
+
+        // 2. ČITANJE FTP-A IZ KORISNIČKOG PROFILA SATA (CIQ 5.2.0 Automatsko rešenje)
+        var ftpVal = null as Number?;
         
-        // Ako je i hardverski profil prazan, rezervni fallback (samo da ne bude prazno)
+        if (profile != null) {
+            if (profile has :functionalThresholdPower) {
+                ftpVal = profile.functionalThresholdPower;
+            } else if (profile has :ftp) {
+                ftpVal = profile.ftp;
+            }
+        }
+
+        // Ako sat još uvek nema ove registre, vučemo iz tvog settings.xml
         if (ftpVal == null) {
-            ftpVal = 200; 
+            try {
+                ftpVal = Application.Properties.getValue("user_ftp") as Number;
+            } catch(e) {
+                ftpVal = 230; // Fallback default
+            }
         }
 
         // 3. RENDER FORMATTING
