@@ -1,6 +1,0 @@
-<resources>
-    <properties>
-        <!-- Authoritative storage property used by the properties API -->
-        <property id="user_ftp" type="number">230</property>
-    </properties>
-</resources>
