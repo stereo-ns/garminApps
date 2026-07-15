@@ -7,7 +7,7 @@ import Toybox.FitContributor;
 
 class rideEffectView extends WatchUi.DataField {
 
-    // --- COGGAN POWER ZONE MULTIPLERS ---
+    // --- COGGAN POWER ZONE MULTIPLIERS ---
     private const ZONE_1_MAXIMUM_MULTIPLIER = 0.55;
     private const ZONE_2_MAXIMUM_MULTIPLIER = 0.75;
     private const ZONE_3_MAXIMUM_MULTIPLIER = 0.90;
@@ -63,22 +63,21 @@ class rideEffectView extends WatchUi.DataField {
             return null;
         }
 
-        if (info != null && info.currentPower != null) {
+        // STRICT FILTER: Only run math and increment counters when the Garmin timer is explicitly ACTIVE
+        if (info != null && info.timerState == Activity.TIMER_STATE_ON && info.currentPower != null) {
             var power = info.currentPower.toFloat();
-            totalSeconds++;
+            totalSeconds++; // Increments only when you are actively moving/recording
 
-            if (power > 0.0) {
-                var z1Maximum = currentFtp * ZONE_1_MAXIMUM_MULTIPLIER;
-                var z2Maximum = currentFtp * ZONE_2_MAXIMUM_MULTIPLIER;
-                var z3Maximum = currentFtp * ZONE_3_MAXIMUM_MULTIPLIER;
-                var z4Maximum = currentFtp * ZONE_4_MAXIMUM_MULTIPLIER;
+            var z1Maximum = currentFtp * ZONE_1_MAXIMUM_MULTIPLIER;
+            var z2Maximum = currentFtp * ZONE_2_MAXIMUM_MULTIPLIER;
+            var z3Maximum = currentFtp * ZONE_3_MAXIMUM_MULTIPLIER;
+            var z4Maximum = currentFtp * ZONE_4_MAXIMUM_MULTIPLIER;
 
-                if (power <= z1Maximum) { z1Seconds++; }
-                else if (power <= z2Maximum) { z2Seconds++; }
-                else if (power <= z3Maximum) { z3Seconds++; }
-                else if (power <= z4Maximum) { z4Seconds++; }
-                else { z5PlusSeconds++; }
-            }
+            if (power <= z1Maximum) { z1Seconds++; }
+            else if (power <= z2Maximum) { z2Seconds++; }
+            else if (power <= z3Maximum) { z3Seconds++; }
+            else if (power <= z4Maximum) { z4Seconds++; }
+            else { z5PlusSeconds++; }
         }
 
         if (totalSeconds == 0) { 
@@ -97,6 +96,8 @@ class rideEffectView extends WatchUi.DataField {
         var baseIntensityPercentage = 100.0 - highIntensityPercentage;
 
         currentDiagnosis = calculateSessionProfile(z3Percentage, z4Percentage, z5PlusPercentage, highIntensityPercentage, baseIntensityPercentage);
+        
+        // Full text labels without abbreviations as per your instructions
         intensityMetric = "Intensity: " + highIntensityPercentage.toNumber() + "%";
         baseMetric = "Base: " + baseIntensityPercentage.toNumber() + "%";
 
@@ -107,33 +108,48 @@ class rideEffectView extends WatchUi.DataField {
         return null;
     }
 
-    // Visual rendering engine - handles fonts and strict 3-line coordinate placements
+    // Dynamic visual rendering engine with text overlap protection (Layout 5b compatible)
     function onUpdate(dc) {
         var width = dc.getWidth();
         var height = dc.getHeight();
         var centerX = width / 2;
 
-        // Clear the canvas with native theme color palette (Light/Dark mode responsive)
         dc.setColor(getBackgroundColor(), getBackgroundColor());
         dc.clear();
 
-        // Configure system brush to write clean contrast text
         var textColor = (getBackgroundColor() == Graphics.COLOR_BLACK) ? Graphics.COLOR_WHITE : Graphics.COLOR_BLACK;
         dc.setColor(textColor, Graphics.COLOR_TRANSPARENT);
 
-        if (intensityMetric.length() == 0) {
-            // Render single motivational entry perfectly center-aligned using FONT_LARGE
-            dc.drawText(centerX, height / 2, Graphics.FONT_LARGE, currentDiagnosis, Graphics.TEXT_JUSTIFY_CENTER | Graphics.TEXT_JUSTIFY_VCENTER);
-        } else {
-            // Render structured 3-line layout using massive fonts for extreme scannability
-            var line1Y = (height * 0.22).toNumber(); // Upper line marker
-            var line2Y = (height * 0.50).toNumber(); // Center line marker
-            var line3Y = (height * 0.78).toNumber(); // Lower line marker
+        // AUTO-FONT RESIZING SYSTEM BASED ON THE ASSIGNED GRID BOX HEIGHT
+        var fontToUse = Graphics.FONT_LARGE;
+        if (height < 70) {
+            fontToUse = Graphics.FONT_XTINY;
+        } else if (height < 110) {
+            fontToUse = Graphics.FONT_SMALL;
+        } else if (height < 150) {
+            fontToUse = Graphics.FONT_MEDIUM;
+        }
 
-            // All lines are hardcoded to FONT_LARGE to prevent Garmin from shrinking the text
-            dc.drawText(centerX, line1Y, Graphics.FONT_LARGE, currentDiagnosis, Graphics.TEXT_JUSTIFY_CENTER | Graphics.TEXT_JUSTIFY_VCENTER);
-            dc.drawText(centerX, line2Y, Graphics.FONT_LARGE, intensityMetric, Graphics.TEXT_JUSTIFY_CENTER | Graphics.TEXT_JUSTIFY_VCENTER);
-            dc.drawText(centerX, line3Y, Graphics.FONT_LARGE, baseMetric, Graphics.TEXT_JUSTIFY_CENTER | Graphics.TEXT_JUSTIFY_VCENTER);
+        if (intensityMetric.length() == 0) {
+            dc.drawText(centerX, height / 2, fontToUse, currentDiagnosis, Graphics.TEXT_JUSTIFY_CENTER | Graphics.TEXT_JUSTIFY_VCENTER);
+        } else {
+            var line1Y, line2Y, line3Y;
+            
+            if (height < 90) {
+                // Adaptive compressed positions for layouts like 5b
+                line1Y = (height * 0.20).toNumber();
+                line2Y = (height * 0.50).toNumber();
+                line3Y = (height * 0.80).toNumber();
+            } else {
+                // Expanded standard spacing for full screen layouts
+                line1Y = (height * 0.25).toNumber();
+                line2Y = (height * 0.50).toNumber();
+                line3Y = (height * 0.75).toNumber();
+            }
+
+            dc.drawText(centerX, line1Y, fontToUse, currentDiagnosis, Graphics.TEXT_JUSTIFY_CENTER | Graphics.TEXT_JUSTIFY_VCENTER);
+            dc.drawText(centerX, line2Y, fontToUse, intensityMetric, Graphics.TEXT_JUSTIFY_CENTER | Graphics.TEXT_JUSTIFY_VCENTER);
+            dc.drawText(centerX, line3Y, fontToUse, baseMetric, Graphics.TEXT_JUSTIFY_CENTER | Graphics.TEXT_JUSTIFY_VCENTER);
         }
     }
 
