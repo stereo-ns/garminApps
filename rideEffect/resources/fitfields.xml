@@ -1,0 +1,12 @@
+<resources>
+    <fitContributions>
+        <fitField id="0" 
+                  displayInChart="false" 
+                  displayInActivitySummary="true" 
+                  sortOrder="1" 
+                  precision="0" 
+                  chartTitle="@Strings.AppName" 
+                  dataLabel="Session Profile" 
+                  unitLabel="" />
+    </fitContributions>
+</resources>
