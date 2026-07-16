@@ -5,8 +5,7 @@
                   displayInActivitySummary="true" 
                   sortOrder="1" 
                   precision="0" 
-                  chartTitle="@Strings.AppName" 
-                  dataLabel="Session Profile" 
-                  unitLabel="" />
+                  dataLabel="@Strings.FitLabel" 
+                  unitLabel="@Strings.EmptyUnit" />
     </fitContributions>
 </resources>

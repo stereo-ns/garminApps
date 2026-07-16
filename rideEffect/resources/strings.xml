@@ -1,0 +1,7 @@
+<resources>
+    <strings>
+        <string id="AppName">Ride Effect</string>
+        <string id="FitLabel">Session Profile</string>
+        <string id="EmptyUnit"></string>
+    </strings>
+</resources>
