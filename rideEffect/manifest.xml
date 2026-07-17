@@ -4,7 +4,7 @@
         Use "Monkey C: Edit Application" from the Visual Studio Code command palette
         to update the application attributes.
     -->
-    <iq:application id="1d22a8dd-573a-4347-beb5-0e01f4d74e90" type="datafield" version="0.2.0" name="@Strings.AppName" entry="rideEffectApp" launcherIcon="@Drawables.LauncherIcon" minApiLevel="3.2.0">
+    <iq:application id="1d22a8dd-573a-4347-beb5-0e01f4d74e90" type="datafield" version="0.2.1" name="@Strings.AppName" entry="rideEffectApp" launcherIcon="@Drawables.LauncherIcon" minApiLevel="3.2.0">
         <!--
             Use the following from the Visual Studio Code comand palette to edit
             the build targets:

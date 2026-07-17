@@ -108,11 +108,12 @@ class rideEffectView extends WatchUi.DataField {
         return null;
     }
 
-    // Dynamic visual rendering engine with text overlap protection (Layout 5b compatible)
+        // Visual rendering engine with strict vertical baseline geometry center-alignment
     function onUpdate(dc) {
         var width = dc.getWidth();
         var height = dc.getHeight();
         var centerX = width / 2;
+        var centerY = height / 2; // The absolute mathematical geometric center of the cell
 
         dc.setColor(getBackgroundColor(), getBackgroundColor());
         dc.clear();
@@ -120,38 +121,46 @@ class rideEffectView extends WatchUi.DataField {
         var textColor = (getBackgroundColor() == Graphics.COLOR_BLACK) ? Graphics.COLOR_WHITE : Graphics.COLOR_BLACK;
         dc.setColor(textColor, Graphics.COLOR_TRANSPARENT);
 
-        // AUTO-FONT RESIZING SYSTEM BASED ON THE ASSIGNED GRID BOX HEIGHT
+        // 1. DYNAMIC FONT SELECTION BASED ON LITERAL SYSTEM HEIGHT
         var fontToUse = Graphics.FONT_LARGE;
-        if (height < 70) {
-            fontToUse = Graphics.FONT_XTINY;
-        } else if (height < 110) {
-            fontToUse = Graphics.FONT_SMALL;
-        } else if (height < 150) {
+        var largeHeight = dc.getFontHeight(Graphics.FONT_LARGE);
+        var mediumHeight = dc.getFontHeight(Graphics.FONT_MEDIUM);
+
+        // Total layout height required for 3 lines stacked directly on top of each other
+        var requiredLarge = largeHeight * 3;
+        var requiredMedium = mediumHeight * 3;
+
+        if (height >= requiredLarge) {
+            fontToUse = Graphics.FONT_LARGE;
+        } else if (height >= requiredMedium) {
             fontToUse = Graphics.FONT_MEDIUM;
+        } else {
+            fontToUse = Graphics.FONT_SMALL;
         }
 
         if (intensityMetric.length() == 0) {
-            dc.drawText(centerX, height / 2, fontToUse, currentDiagnosis, Graphics.TEXT_JUSTIFY_CENTER | Graphics.TEXT_JUSTIFY_VCENTER);
+            dc.drawText(centerX, centerY, fontToUse, currentDiagnosis, Graphics.TEXT_JUSTIFY_CENTER | Graphics.TEXT_JUSTIFY_VCENTER);
         } else {
-            var line1Y, line2Y, line3Y;
-            
-            if (height < 90) {
-                // Adaptive compressed positions for layouts like 5b
-                line1Y = (height * 0.20).toNumber();
-                line2Y = (height * 0.50).toNumber();
-                line3Y = (height * 0.80).toNumber();
-            } else {
-                // Expanded standard spacing for full screen layouts
-                line1Y = (height * 0.25).toNumber();
-                line2Y = (height * 0.50).toNumber();
-                line3Y = (height * 0.75).toNumber();
-            }
+            // 2. GEOMETRIC LINE SPACING (Eliminating padding variables and magic numbers)
+            var lineHeight = dc.getFontHeight(fontToUse);
 
+            // Middle line (Line 2) sits perfectly dead-center in the vertical middle of the box
+            var line2Y = centerY;
+            
+            // Upper line (Line 1) is shifted up by exactly one full line height from the center baseline
+            var line1Y = centerY - lineHeight;
+            
+            // Lower line (Line 3) is shifted down by exactly one full line height from the center baseline
+            var line3Y = centerY + lineHeight;
+
+            // Render all 3 lines using the absolute geometric crosshair configuration
             dc.drawText(centerX, line1Y, fontToUse, currentDiagnosis, Graphics.TEXT_JUSTIFY_CENTER | Graphics.TEXT_JUSTIFY_VCENTER);
             dc.drawText(centerX, line2Y, fontToUse, intensityMetric, Graphics.TEXT_JUSTIFY_CENTER | Graphics.TEXT_JUSTIFY_VCENTER);
             dc.drawText(centerX, line3Y, fontToUse, baseMetric, Graphics.TEXT_JUSTIFY_CENTER | Graphics.TEXT_JUSTIFY_VCENTER);
         }
     }
+
+
 
     private function calculateSessionProfile(z3Percentage as Float, z4Percentage as Float, z5PlusPercentage as Float, highIntensityPercentage as Float, baseIntensityPercentage as Float) as String {
         if (z4Percentage >= THRESHOLD_DURATION_MIN_PERCENTAGE || highIntensityPercentage > baseIntensityPercentage) {
