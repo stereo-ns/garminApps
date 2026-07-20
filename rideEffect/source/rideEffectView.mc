@@ -40,9 +40,10 @@ class rideEffectView extends WatchUi.DataField {
         MIXED_WORK
     }
 
-    // --- KEŠIRANI STRINGOVI ZA MAKSIMALNU BRZINU ---
-    private var _cachedDisplayStrings as Array<String> = [] as Array<String>;
-    private var _cachedFitStrings as Array<String> = ["Go Legs!", "No FTP Profile", "Threshold", "Tempo / S.Spot", "Aerobic Base", "Mixed Work"] as Array<String>;
+    // --- KEŠIRANI STRINGOVI ---
+    private var _cachedDisplayStrings as Array<String>;
+    private var _cachedFitStrings as Array<String>;
+    
     private var _labelIntensity as String = "";
     private var _labelBase as String = "";
 
@@ -51,10 +52,14 @@ class rideEffectView extends WatchUi.DataField {
     private var intensityMetric as String = "";
     private var baseMetric as String = "";
 
-    function initialize() {
+   function initialize() {
         DataField.initialize();
         
-        // Jednokratno učitavanje resursa pri paljenju aplikacije
+        // Alokacija niza od tačno 6 mesta po zvaničnom Garmin standardu
+        _cachedDisplayStrings = new Array<String>[6];
+        _cachedFitStrings = new Array<String>[6];
+
+        // Učitavanje ekranskih prevoda iz strings.xml
         _cachedDisplayStrings[GO_LEGS]      = WatchUi.loadResource(Rez.Strings.GoLegs) as String;
         _cachedDisplayStrings[NO_FTP]       = WatchUi.loadResource(Rez.Strings.NoFtp) as String;
         _cachedDisplayStrings[THRESHOLD]    = WatchUi.loadResource(Rez.Strings.Threshold) as String;
@@ -62,17 +67,34 @@ class rideEffectView extends WatchUi.DataField {
         _cachedDisplayStrings[AEROBIC_BASE] = WatchUi.loadResource(Rez.Strings.FatBurning) as String;
         _cachedDisplayStrings[MIXED_WORK]   = WatchUi.loadResource(Rez.Strings.MixedWork) as String;
 
+        // Upisivanje engleskih naziva za FIT fajl
+        _cachedFitStrings[GO_LEGS]      = "Go Legs!";
+        _cachedFitStrings[NO_FTP]       = "No FTP Profile";
+        _cachedFitStrings[THRESHOLD]    = "Threshold";
+        _cachedFitStrings[TEMPO_SS]     = "Tempo / S.Spot";
+        _cachedFitStrings[AEROBIC_BASE] = "Aerobic Base";
+        _cachedFitStrings[MIXED_WORK]   = "Mixed Work";
+
+        // Učitavanje labela za procente
         _labelIntensity = WatchUi.loadResource(Rez.Strings.IntensityLabel) as String;
         _labelBase      = WatchUi.loadResource(Rez.Strings.BaseLabel) as String;
 
-        // Povlačenje naziva labele iz strings.xml
+        // Učitavanje naziva u čistu tekstualnu varijablu bez eksplicitnog tipa (Inferred)
+        var fitLabelName = WatchUi.loadResource(Rez.Strings.FitLabel) as String;
+
+        // Kreiranje polja sa direktnim i čistim rečnikom koji prolazi sve nivoe Type Check-a
         fitField = createField(
-            WatchUi.loadResource(Rez.Strings.FitLabel) as String, 
+            fitLabelName, 
             RIDE_DIAGNOSIS_FIELD_ID, 
             FitContributor.DATA_TYPE_STRING, 
-            { :count => 32, :mesgType => FitContributor.MESG_TYPE_SESSION }
+            { 
+                :count => 32, 
+                :mesgType => FitContributor.MESG_TYPE_SESSION 
+            }
         );
     }
+
+
 
     function compute(info as Activity.Info) as Null {
         var currentFtp = null;
