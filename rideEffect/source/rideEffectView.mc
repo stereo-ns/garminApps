@@ -30,24 +30,51 @@ class rideEffectView extends WatchUi.DataField {
     private var z5PlusSeconds as Number = 0;
     private var totalSeconds as Number = 0;
 
+    // --- ENUM ZA PROFILE ---
+    enum SessionProfile {
+        GO_LEGS,
+        NO_FTP,
+        THRESHOLD,
+        TEMPO_SS,
+        AEROBIC_BASE,
+        MIXED_WORK
+    }
+
+    // --- KEŠIRANI STRINGOVI ZA MAKSIMALNU BRZINU ---
+    private var _cachedDisplayStrings as Array<String> = [] as Array<String>;
+    private var _cachedFitStrings as Array<String> = ["Go Legs!", "No FTP Profile", "Threshold", "Tempo / S.Spot", "Aerobic Base", "Mixed Work"] as Array<String>;
+    private var _labelIntensity as String = "";
+    private var _labelBase as String = "";
+
     // --- SCREEN LAYOUT VARIABLES ---
-    private var currentDiagnosis as String = "Go Legs!";
+    private var currentProfile as SessionProfile = GO_LEGS;
     private var intensityMetric as String = "";
     private var baseMetric as String = "";
 
     function initialize() {
         DataField.initialize();
         
+        // Jednokratno učitavanje resursa pri paljenju aplikacije
+        _cachedDisplayStrings[GO_LEGS]      = WatchUi.loadResource(Rez.Strings.GoLegs) as String;
+        _cachedDisplayStrings[NO_FTP]       = WatchUi.loadResource(Rez.Strings.NoFtp) as String;
+        _cachedDisplayStrings[THRESHOLD]    = WatchUi.loadResource(Rez.Strings.Threshold) as String;
+        _cachedDisplayStrings[TEMPO_SS]     = WatchUi.loadResource(Rez.Strings.TempoSS) as String;
+        _cachedDisplayStrings[AEROBIC_BASE] = WatchUi.loadResource(Rez.Strings.FatBurning) as String;
+        _cachedDisplayStrings[MIXED_WORK]   = WatchUi.loadResource(Rez.Strings.MixedWork) as String;
+
+        _labelIntensity = WatchUi.loadResource(Rez.Strings.IntensityLabel) as String;
+        _labelBase      = WatchUi.loadResource(Rez.Strings.BaseLabel) as String;
+
+        // Povlačenje naziva labele iz strings.xml
         fitField = createField(
-            "Session Profile", 
+            WatchUi.loadResource(Rez.Strings.FitLabel) as String, 
             RIDE_DIAGNOSIS_FIELD_ID, 
             FitContributor.DATA_TYPE_STRING, 
             { :count => 32, :mesgType => FitContributor.MESG_TYPE_SESSION }
         );
     }
 
-    // Background mathematical core - executes strictly once per second
-    function compute(info as Activity.Info) {
+    function compute(info as Activity.Info) as Null {
         var currentFtp = null;
         if (UserProfile has :getFunctionalThresholdPower) {
             var thresholdPower = UserProfile.getFunctionalThresholdPower(Activity.SPORT_CYCLING);
@@ -57,16 +84,15 @@ class rideEffectView extends WatchUi.DataField {
         }
 
         if (currentFtp == null) {
-            currentDiagnosis = "No FTP Profile";
+            currentProfile = NO_FTP;
             intensityMetric = "";
             baseMetric = "";
             return null;
         }
 
-        // STRICT FILTER: Only run math and increment counters when the Garmin timer is explicitly ACTIVE
         if (info != null && info.timerState == Activity.TIMER_STATE_ON && info.currentPower != null) {
             var power = info.currentPower.toFloat();
-            totalSeconds++; // Increments only when you are actively moving/recording
+            totalSeconds++;
 
             var z1Maximum = currentFtp * ZONE_1_MAXIMUM_MULTIPLIER;
             var z2Maximum = currentFtp * ZONE_2_MAXIMUM_MULTIPLIER;
@@ -81,39 +107,46 @@ class rideEffectView extends WatchUi.DataField {
         }
 
         if (totalSeconds == 0) { 
-            currentDiagnosis = "Go Legs!";
+            currentProfile = GO_LEGS;
             intensityMetric = "";
             baseMetric = "";
             return null; 
         }
 
         var totalSecsFloat = totalSeconds.toFloat();
-        var z3Percentage = (z3Seconds.toFloat() / totalSecsFloat) * 100.0;
-        var z4Percentage = (z4Seconds.toFloat() / totalSecsFloat) * 100.0;
-        var z5PlusPercentage = (z5PlusSeconds.toFloat() / totalSecsFloat) * 100.0;
+        var z3Pct = (z3Seconds.toFloat() / totalSecsFloat) * 100.0;
+        var z4Pct = (z4Seconds.toFloat() / totalSecsFloat) * 100.0;
+        var z5PlusPct = (z5PlusSeconds.toFloat() / totalSecsFloat) * 100.0;
 
-        var highIntensityPercentage = z3Percentage + z4Percentage + z5PlusPercentage;
+        var highIntensityPercentage = z3Pct + z4Pct + z5PlusPct;
         var baseIntensityPercentage = 100.0 - highIntensityPercentage;
 
-        currentDiagnosis = calculateSessionProfile(z3Percentage, z4Percentage, z5PlusPercentage, highIntensityPercentage, baseIntensityPercentage);
+        if (z4Pct >= THRESHOLD_DURATION_MIN_PERCENTAGE || highIntensityPercentage > baseIntensityPercentage) {
+            currentProfile = THRESHOLD;
+        } else if (z3Pct >= TEMPO_DURATION_MIN_PERCENTAGE || z3Pct > baseIntensityPercentage) {
+            currentProfile = TEMPO_SS;
+        } else if (baseIntensityPercentage >= BASE_DURATION_MIN_PERCENTAGE) {
+            currentProfile = AEROBIC_BASE;
+        } else {
+            currentProfile = MIXED_WORK;
+        }
         
-        // Full text labels without abbreviations as per your instructions
-        intensityMetric = "Intensity: " + highIntensityPercentage.toNumber() + "%";
-        baseMetric = "Base: " + baseIntensityPercentage.toNumber() + "%";
+        var intensityValue = highIntensityPercentage.toNumber();
+        intensityMetric = _labelIntensity + intensityValue + "%";
+        baseMetric = _labelBase + baseIntensityPercentage.toNumber() + "%";
 
         if (fitField != null) {
-            fitField.setData(currentDiagnosis);
+            fitField.setData(_cachedFitStrings[currentProfile] + " - " + intensityValue + "%");
         }
 
         return null;
     }
 
-        // Visual rendering engine with strict vertical baseline geometry center-alignment
     function onUpdate(dc) {
         var width = dc.getWidth();
         var height = dc.getHeight();
         var centerX = width / 2;
-        var centerY = height / 2; // The absolute mathematical geometric center of the cell
+        var centerY = height / 2;
 
         dc.setColor(getBackgroundColor(), getBackgroundColor());
         dc.clear();
@@ -121,60 +154,28 @@ class rideEffectView extends WatchUi.DataField {
         var textColor = (getBackgroundColor() == Graphics.COLOR_BLACK) ? Graphics.COLOR_WHITE : Graphics.COLOR_BLACK;
         dc.setColor(textColor, Graphics.COLOR_TRANSPARENT);
 
-        // 1. DYNAMIC FONT SELECTION BASED ON LITERAL SYSTEM HEIGHT
         var fontToUse = Graphics.FONT_LARGE;
         var largeHeight = dc.getFontHeight(Graphics.FONT_LARGE);
         var mediumHeight = dc.getFontHeight(Graphics.FONT_MEDIUM);
 
-        // Total layout height required for 3 lines stacked directly on top of each other
-        var requiredLarge = largeHeight * 3;
-        var requiredMedium = mediumHeight * 3;
-
-        if (height >= requiredLarge) {
+        if (height >= (largeHeight * 3)) {
             fontToUse = Graphics.FONT_LARGE;
-        } else if (height >= requiredMedium) {
+        } else if (height >= (mediumHeight * 3)) {
             fontToUse = Graphics.FONT_MEDIUM;
         } else {
             fontToUse = Graphics.FONT_SMALL;
         }
 
+        var displayString = _cachedDisplayStrings[currentProfile];
+
         if (intensityMetric.length() == 0) {
-            dc.drawText(centerX, centerY, fontToUse, currentDiagnosis, Graphics.TEXT_JUSTIFY_CENTER | Graphics.TEXT_JUSTIFY_VCENTER);
+            dc.drawText(centerX, centerY, fontToUse, displayString, Graphics.TEXT_JUSTIFY_CENTER | Graphics.TEXT_JUSTIFY_VCENTER);
         } else {
-            // 2. GEOMETRIC LINE SPACING (Eliminating padding variables and magic numbers)
             var lineHeight = dc.getFontHeight(fontToUse);
 
-            // Middle line (Line 2) sits perfectly dead-center in the vertical middle of the box
-            var line2Y = centerY;
-            
-            // Upper line (Line 1) is shifted up by exactly one full line height from the center baseline
-            var line1Y = centerY - lineHeight;
-            
-            // Lower line (Line 3) is shifted down by exactly one full line height from the center baseline
-            var line3Y = centerY + lineHeight;
-
-            // Render all 3 lines using the absolute geometric crosshair configuration
-            dc.drawText(centerX, line1Y, fontToUse, currentDiagnosis, Graphics.TEXT_JUSTIFY_CENTER | Graphics.TEXT_JUSTIFY_VCENTER);
-            dc.drawText(centerX, line2Y, fontToUse, intensityMetric, Graphics.TEXT_JUSTIFY_CENTER | Graphics.TEXT_JUSTIFY_VCENTER);
-            dc.drawText(centerX, line3Y, fontToUse, baseMetric, Graphics.TEXT_JUSTIFY_CENTER | Graphics.TEXT_JUSTIFY_VCENTER);
+            dc.drawText(centerX, centerY - lineHeight, fontToUse, displayString, Graphics.TEXT_JUSTIFY_CENTER | Graphics.TEXT_JUSTIFY_VCENTER);
+            dc.drawText(centerX, centerY, fontToUse, intensityMetric, Graphics.TEXT_JUSTIFY_CENTER | Graphics.TEXT_JUSTIFY_VCENTER);
+            dc.drawText(centerX, centerY + lineHeight, fontToUse, baseMetric, Graphics.TEXT_JUSTIFY_CENTER | Graphics.TEXT_JUSTIFY_VCENTER);
         }
-    }
-
-
-
-    private function calculateSessionProfile(z3Percentage as Float, z4Percentage as Float, z5PlusPercentage as Float, highIntensityPercentage as Float, baseIntensityPercentage as Float) as String {
-        if (z4Percentage >= THRESHOLD_DURATION_MIN_PERCENTAGE || highIntensityPercentage > baseIntensityPercentage) {
-            return "Threshold";
-        }
-
-        if (z3Percentage >= TEMPO_DURATION_MIN_PERCENTAGE || z3Percentage > baseIntensityPercentage) {
-            return "Tempo / S.Spot";
-        }
-
-        if (baseIntensityPercentage >= BASE_DURATION_MIN_PERCENTAGE) {
-            return "Aerobic Base";
-        }
-
-        return "Mixed Work";
     }
 }

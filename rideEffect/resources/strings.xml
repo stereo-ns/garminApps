@@ -1,7 +1,15 @@
 <resources>
-    <strings>
-        <string id="AppName">Ride Effect</string>
-        <string id="FitLabel">Session Profile</string>
-        <string id="EmptyUnit"></string>
-    </strings>
+    <string id="AppName">Ride Effect</string>
+    <string id="FitLabel">Session Profile</string>
+    <string id="EmptyUnit"></string>
+
+    <string id="GoLegs">Go Legs!</string>
+    <string id="NoFtp">No FTP Profile</string>
+    <string id="Threshold">Threshold</string>
+    <string id="TempoSS">Tempo / S.Spot</string>
+    <string id="FatBurning">Fat Burning</string>
+    <string id="MixedWork">Mixed Work</string>
+
+    <string id="IntensityLabel">Intensity: </string>
+    <string id="BaseLabel">Base: </string>
 </resources>

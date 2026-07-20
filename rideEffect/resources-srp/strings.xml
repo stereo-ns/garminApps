@@ -1,0 +1,11 @@
+<resources>
+    <string id="GoLegs">Spremi noge!</string>
+    <string id="NoFtp">Nema FTP profila</string>
+    <string id="Threshold">Prag (Threshold)</string>
+    <string id="TempoSS">Tempo / S.Spot</string>
+    <string id="FatBurning">Topljenje masti</string>
+    <string id="MixedWork">Mešovit rad</string>
+
+    <string id="IntensityLabel">Intenzitet: </string>
+    <string id="BaseLabel">Baza: </string>
+</resources>
